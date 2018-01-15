@@ -15,7 +15,7 @@ requestCandidate.done(function (data) {
 
     var image = $("<img>");
     image.attr({
-        "src": data.avatar || "http://via.placeholder.com/350x350",
+        "src": data.avatar ||  "http://style.anu.edu.au/_anu/4/images/placeholders/person.png",
         "alt": "Candidate"
     })
 
@@ -58,7 +58,6 @@ requestCandidate.done(function (data) {
 })
 
 
-
 $.ajax("http://localhost:3333/api/reports/", {
     type: 'GET',
     dataType: 'json',
@@ -78,14 +77,14 @@ $.ajax("http://localhost:3333/api/reports/", {
             }
 
             if (counter === data.length) {
-                var noReport = "<h2 class='text-center'>This candidate has no reports.<h2>"
+                var noReport = "<h2 >This candidate has no reports.<h2>"
                 $(".candidatesReport").append(noReport);
 
             }
         }
         console.log(reportData);
 
-        $(".candidatesReport").append($("<table class='table text-center'>")
+        var table = $("<table class='table text-center'>")
             .append($("<thead>")
                 .append($("<tr>")
                     .append($("<th scope='col'>")
@@ -98,12 +97,13 @@ $.ajax("http://localhost:3333/api/reports/", {
                         .text("Status")
                     )
                     .append($("<th scope='col'>")
-                    ))));
+                    )))
 
         for (var i = 0; i < allCompaniesReports.length; i++) {
             var element = allCompaniesReports[i];
+            console.log(element);
 
-            $(".table").append($("<tr >")
+            $(table).append($("<tr>")
                 .append($("<td>")
                     .text(element.companyName)
                 )
@@ -114,15 +114,22 @@ $.ajax("http://localhost:3333/api/reports/", {
                     .text(element.status)
                 )
                 .append($("<td>")
-                        .html("<a href='#'><i class='fa fa-eye' aria-hidden='true'></i></a>")
+                    .html("<a data-toggle='modal' href='#modal'><i class='fa fa-eye' aria-hidden='true'></i></a>")
                 ))
+
+            $(".candidatesReport").append(table);
 
         }
 
+        $(document).on("click", "a", function () {
+            $(".modal-title").text(element.candidateName);
+            $("#company").text(element.companyName);
+            $("#interviewDate").text(element.interviewDate);
+            $("#phase").text(element.phase);
+            $("#status").text(element.status);
+            $("#note").text(element.note);
 
-
-
-
+        })
     },
     error: function () {
         console.log("ne radi")
