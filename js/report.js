@@ -36,8 +36,9 @@ requestCandidate.done(function (data) {
     hEmail.text("Email: " + data.email);
 
     var hDateOfBirth = $("<h5>");
+    var birthday= new Date(data.birthday).toDateString();
     hDateOfBirth.attr("class", "col-12 col-md-6");
-    hDateOfBirth.text("Date of birth: " + data.birthday);
+    hDateOfBirth.text("Date of birth: " + birthday);
 
     var hEducation = $("<h5>");
     hEducation.attr("class", "col-12 col-md-6");
@@ -82,7 +83,7 @@ $.ajax("http://localhost:3333/api/reports/", {
 
             }
         }
-        console.log(reportData);
+        
 
         var table = $("<table class='table text-center'>")
             .append($("<thead>")
@@ -101,14 +102,14 @@ $.ajax("http://localhost:3333/api/reports/", {
 
         for (var i = 0; i < allCompaniesReports.length; i++) {
             var element = allCompaniesReports[i];
-            console.log(element);
+            var interviewDate = new Date(element.interviewDate).toLocaleString()
 
             $(table).append($("<tr>")
                 .append($("<td>")
                     .text(element.companyName)
                 )
                 .append($("<td>")
-                    .text(element.interviewDate)
+                    .text(interviewDate)
                 )
                 .append($("<td>")
                     .text(element.status)
