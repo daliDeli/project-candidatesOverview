@@ -8,40 +8,38 @@ var requestCandidate = $.ajax({
 });
 
 requestCandidate.done(function (data) {
-    console.log(data);
 
     var divImage = $("<div>");
     divImage.attr("class", "col-12 col-md-4");
 
     var image = $("<img>");
     image.attr({
-        "src": data.avatar ||  "http://style.anu.edu.au/_anu/4/images/placeholders/person.png",
-        "alt": "Candidate"
+        "src": data.avatar || "http://style.anu.edu.au/_anu/4/images/placeholders/person.png",
+        "alt": "Candidate",
+        "class": "divImage"
     })
 
     var divInfo = $("<div>");
-    divInfo.attr("class", "col-12 col-md-8");
+    divInfo.attr("class", "col-12 col-md-6 all");
 
     var rowInfo = $("<div>");
     divInfo.attr("class", "row");
 
     var hName = $("<h5>");
     var candidatesName = data.name;
-    hName.attr("class", "col-12 col-md-6");
+    
     hName.text("Name: " + candidatesName);
 
 
     var hEmail = $("<h5>");
-    hEmail.attr("class", "col-12 col-md-6");
+    
     hEmail.text("Email: " + data.email);
 
     var hDateOfBirth = $("<h5>");
-    var birthday= new Date(data.birthday).toDateString();
-    hDateOfBirth.attr("class", "col-12 col-md-6");
+    var birthday = new Date(data.birthday).toDateString();
     hDateOfBirth.text("Date of birth: " + birthday);
 
     var hEducation = $("<h5>");
-    hEducation.attr("class", "col-12 col-md-6");
     hEducation.text("Education: " + data.education);
 
     divImage.append(image);
@@ -51,8 +49,7 @@ requestCandidate.done(function (data) {
     rowInfo.append(hDateOfBirth);
     rowInfo.append(hEducation);
 
-    $("h1").prepend(candidatesName + "'s")
-
+    $(".candidatesName").prepend(candidatesName + "'s");
     $('.candidatesInfo').append(divImage);
     $('.candidatesInfo').append(divInfo);
 
@@ -83,7 +80,7 @@ $.ajax("http://localhost:3333/api/reports/", {
 
             }
         }
-        
+
 
         var table = $("<table class='table text-center'>")
             .append($("<thead>")
@@ -100,6 +97,35 @@ $.ajax("http://localhost:3333/api/reports/", {
                     .append($("<th scope='col'>")
                     )))
 
+
+
+        // correct data for modal 
+        $(document).on("click", "a", function (e) {
+            var dateToOpenModal = e.target.getAttribute("data-date");
+            var idToOpenModal = e.target.getAttribute("data-id");
+            
+            var correctCandidateData = {};
+
+            data.map(function (candidate) {
+                var correctDate = new Date(candidate.interviewDate).toLocaleString();
+               
+                if (  candidate.candidateId == idToOpenModal && correctDate == dateToOpenModal  ) {
+                  
+                    correctCandidateData = candidate;
+                }
+            })
+
+            $(".modal-title").text(correctCandidateData.candidateName);
+            $("#company").text(correctCandidateData.companyName);
+            $("#interviewDate").text(correctCandidateData.interviewDate);
+            $("#phase").text(correctCandidateData.phase);
+            $("#status").text(correctCandidateData.status);
+            $("#note").text(correctCandidateData.note);
+
+        })
+
+
+        // table for reports
         for (var i = 0; i < allCompaniesReports.length; i++) {
             var element = allCompaniesReports[i];
             var interviewDate = new Date(element.interviewDate).toLocaleString()
@@ -115,28 +141,31 @@ $.ajax("http://localhost:3333/api/reports/", {
                     .text(element.status)
                 )
                 .append($("<td>")
-                    .html("<a data-toggle='modal' href='#modal'><i class='fa fa-eye' aria-hidden='true'></i></a>")
+                    .append($("<a>")
+                        .attr({
+                            "type": "button",
+                            "data-toggle": "modal",
+                            "data-target": "#modal",
+                            "data-date": interviewDate,
+                            "data-id": element.candidateId,
+                            "href": '#modal'
+                        }).append($("<i>")
+                            .attr({
+                                "class": "fa fa-eye",
+                                "data-date": interviewDate,
+                                "data-id": element.candidateId,
+
+                            })))
                 ))
 
             $(".candidatesReport").append(table);
 
         }
-
-        $(document).on("click", "a", function () {
-            $(".modal-title").text(element.candidateName);
-            $("#company").text(element.companyName);
-            $("#interviewDate").text(element.interviewDate);
-            $("#phase").text(element.phase);
-            $("#status").text(element.status);
-            $("#note").text(element.note);
-
-        })
     },
     error: function () {
         console.log("ne radi")
     },
 });
-
 
 
 

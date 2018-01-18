@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css?family=Audiowide');
+
+body{
+    font-family: 'Audiowide', cursive;
+}
+.navbar-brand{
+    font-size: 1.8em;
+    color: rgb(74, 112, 90) !important;
+}
+.navbar{
+    background: #4C0001;
+}
+img{
+    border-radius: 40%
+}
+.card{
+    border: 3px 
+}
+.card-body a{
+    color: #57886C;
+}
+a:hover{
+    color: rgba(0, 0, 0, 0.624);
+    text-decoration: none;
+}
+.blackBackground{
+    background: #070000;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #070000, #4C0001, #070000);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #070000, #4C0001, #070000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: whitesmoke;    
+}
+.back{
+    height: 40px;
+}
+.divImage{
+    height: 20em;
+}
+h5{
+    padding:1em; 
+}
+.modal{
+    color: black;
+    text-align: center
+}

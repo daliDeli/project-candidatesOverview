@@ -24,10 +24,9 @@ document.addEventListener("click", function (event) {
     }
 });
 
-// CREATING ELEMENTS
+// rendering elements
 
 function createCandidateCard(data) {
-    console.log(data);
 
     for (var i = 0; i < data.length; i++) {
 
@@ -35,18 +34,14 @@ function createCandidateCard(data) {
         var name = data[i].name;
         var id = data[i].id;
         var email = data[i].email;
-        console.log(id);
 
         var candidateCard = document.createElement("div");
-        candidateCard.setAttribute("class", "card col-12 col-md-4");
-        candidateCard.setAttribute("style", "width: 18rem");
+        candidateCard.setAttribute("class", "card col-12 col-md-4 card");
 
         var candidateImage = document.createElement("img");
-        candidateImage.setAttribute("class", "card-img-top");
+        candidateImage.setAttribute("class", "card-img-top img-circle");
         candidateImage.setAttribute("src", avatar || "http://style.anu.edu.au/_anu/4/images/placeholders/person.png");
-        candidateImage.setAttribute("alt", "Card iage cap");
-        candidateImage.setAttribute("style", "width: 12rem");
-        candidateImage.setAttribute("style", "height: 12rem");
+        candidateImage.setAttribute("alt", "Card image cap");
         candidateCard.appendChild(candidateImage);
 
         var candidateCardBody = document.createElement("div");
@@ -77,13 +72,11 @@ function createCandidateCard(data) {
     }
 }
 
-// SEARCH 
+// search
 var search = document.querySelector("#search");
 
 search.addEventListener('keyup', function (e) {
     filteredCandidates = [];
-    console.log("filter", filteredCandidates);
-    console.log("reports", allReports);
 
     var searchedCandidate = e.target.value.toLowerCase();
     allReports.map(function (candidate) {
